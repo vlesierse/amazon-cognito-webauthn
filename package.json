@@ -1,0 +1,20 @@
+{
+  "name": "cognito-webauthn-backend",
+  "version": "1.0.0",
+  "scripts": {
+    "package": "sam package --template-file template.yml --output-template-file package.yml --s3-bucket ${S3_BUCKET_NAME}",
+    "deploy": "sam deploy --template-file package.yml --capabilities CAPABILITY_IAM --stack-name ${STACK_NAME} --parameter-overrides CollectionName=${COLLECTION_NAME} UserPoolName=${USER_POOL_NAME} DocumentUploadBucketName=${SIGN_UP_S3_BUCKET} SignInUploadBucketName=${SIGN_IN_S3_BUCKET}",
+    "check-env": "if [ -e ${S3_BUCKET_NAME} ] || [ -e ${USER_POOL_NAME} ] || [ -e ${STACK_NAME} ] || [ -e ${SES_FROM_ADDRESS} ]; then exit 1; fi",
+    "ci": "npm run check-env && npm run package && npm run deploy"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@fidm/x509": "^1.2.1",
+    "aws-sdk": "^2.556.0",
+    "base64url": "^3.0.1",
+    "cbor": "^5.0.1",
+    "iso-3166-1": "^1.1.0"
+  },
+  "devDependencies": {}
+}
